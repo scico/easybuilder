@@ -9,7 +9,7 @@ ENV EASYBUILD_MODULES_TOOL Lmod
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
 USER root
-RUN  yum -y install rpm-build bash-completion python-keyring zlib-devel openssl-devel libibverbs-devel unzip && yum clean all
+RUN  yum -y update && yum -y yum-plugin-ovl && yum -y install rpm-build bash-completion python-keyring zlib-devel openssl-devel libibverbs-devel unzip && yum clean all
 
 USER apps
 
