@@ -1,3 +1,7 @@
-# easybuildor
+easybuildor
+===========
 
-The EasyBuild framework in a CentOS 7 container
+
+The EasyBuild framework in CentOS 7 container. 
+
+
