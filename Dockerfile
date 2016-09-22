@@ -9,17 +9,19 @@ ENV EASYBUILD_MODULES_TOOL Lmod
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
 USER root
-RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install rpm-build bash-completion python-keyring zlib-devel openssl-devel libibverbs-devel unzip && yum clean all
+RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install rpm-build libibverbs python-keyring zlib-devel openssl-devel libibverbs-devel unzip && yum clean all
 
 USER apps
 
-WORKDIR ${EBDIR}
+WORKDIR /home/apps
 
 RUN curl -O https://raw.githubusercontent.com/hpcugent/easybuild-framework/develop/easybuild/scripts/bootstrap_eb.py  && \
 chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod/6.5.2 && /opt/apps/bootstrap_eb.py ${EBDIR}
 
 RUN source /etc/profile.d/modules.sh && module use -a ${EBDIR}/modules/all && module load EasyBuild && eb FPM-1.3.3-Ruby-2.1.6.eb -r
 
-RUN echo "module use -a "${EBDIR}"/modules/all" >> ${EBDIR}/.bashrc && echo "module load EasyBuild/"${EASYBUILD_VER} >> ${EBDIR}/.bashrc 
+RUN echo "module use -a "${EBDIR}"/modules/all" >> ${EBDIR}/.bashrc && \
+    echo "module load EasyBuild/"${EASYBUILD_VER} >> ${EBDIR}/.bashrc && \ 
+    echo "module load FPM >> ${EBDIR}/.bashrc 
 
 CMD /bin/bash
