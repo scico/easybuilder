@@ -13,15 +13,14 @@ RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install rpm-build 
 
 USER apps
 
-WORKDIR /home/apps
-
+WORKDIR ${EBDIR}
 RUN curl -O https://raw.githubusercontent.com/hpcugent/easybuild-framework/develop/easybuild/scripts/bootstrap_eb.py  && \
 chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod/6.5.2 && /opt/apps/bootstrap_eb.py ${EBDIR}
 
 RUN source /etc/profile.d/modules.sh && module use -a ${EBDIR}/modules/all && module load EasyBuild && eb FPM-1.3.3-Ruby-2.1.6.eb -r
-
-RUN echo "module use -a "${EBDIR}"/modules/all" >> ${EBDIR}/.bashrc && \
-    echo "module load EasyBuild/"${EASYBUILD_VER} >> ${EBDIR}/.bashrc && \ 
-    echo "module load FPM >> ${EBDIR}/.bashrc 
+WORKDIR /home/apps
+RUN echo "module use -a "${EBDIR}"/modules/all" >> /home/apps/.bashrc && \
+    echo "module load EasyBuild/"${EASYBUILD_VER} >> /home/apps/.bashrc && \ 
+    echo "module load FPM >> /home/apps/.bashrc 
 
 CMD /bin/bash
