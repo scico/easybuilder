@@ -21,6 +21,6 @@ RUN source /etc/profile.d/modules.sh && module use -a ${EBDIR}/modules/all && mo
 WORKDIR /home/apps
 RUN echo "module use -a "${EBDIR}"/modules/all" >> /home/apps/.bashrc && \
     echo "module load EasyBuild/"${EASYBUILD_VER} >> /home/apps/.bashrc && \ 
-    echo "module load FPM >> /home/apps/.bashrc 
+    echo "module load FPM" >> /home/apps/.bashrc 
 
 CMD /bin/bash
