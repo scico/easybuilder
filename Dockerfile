@@ -1,12 +1,10 @@
 FROM docker.io/scico/easylmod:centos7
 
-ENV EBDIR /opt/apps
+ENV EB_DIR /opt/apps
+ENV EB_VER 3.0.0 
+ENV EASYBUILD_MODULES_TOOL Lmod
 
 ENV LMOD_VER 7.0.5  
-ENV EASYBUILD_VERSION 3.0.0 
- 
-ENV EASYBUILD_PREFIX ${EBDIR}
-ENV EASYBUILD_MODULES_TOOL Lmod
 
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
@@ -15,13 +13,14 @@ RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install rpm-build 
 
 USER apps
 
-WORKDIR ${EBDIR}
+WORKDIR ${EB_DIR}
 RUN curl -O https://raw.githubusercontent.com/hpcugent/easybuild-framework/develop/easybuild/scripts/bootstrap_eb.py  && \
-chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod/${LMOD_VER} && /opt/apps/bootstrap_eb.py ${EBDIR}
+chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod/${LMOD_VER} && ${EB_DIR}/bootstrap_eb.py ${EB_DIR} 
 
-RUN source /etc/profile.d/modules.sh && module use -a ${EBDIR}/modules/all && module load EasyBuild 
+RUN source /etc/profile.d/modules.sh && module use -a ${EB_DIR}/modules/all  
+
 WORKDIR /home/apps
-RUN echo "module use -a "${EBDIR}"/modules/all" >> /home/apps/.bashrc && \
-    echo "module load EasyBuild/"${EASYBUILD_VERSION} >> /home/apps/.bashrc  
+RUN echo "module use -a "${EB_DIR}"/modules/all" >> /home/apps/.bashrc && \
+    echo "module load EasyBuild/"${EB_VER} >> /home/apps/.bashrc  
 
 CMD /bin/bash
