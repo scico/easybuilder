@@ -1,4 +1,4 @@
-FROM easylmod:centos7
+FROM  docker.io/scico/easylmod:centos7
 
 ENV EBDIR /opt/apps
 
