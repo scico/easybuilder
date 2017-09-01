@@ -3,14 +3,14 @@ FROM  docker.io/scico/easylmod:centos7
 ENV EBDIR /opt/apps
 
 ENV LMOD_VER 7.6.11
-ENV ALLOW_LOADED_MODULES FPM,Ruby
+ENV DEFAULT_ALLOW_LOADED_MODULES EasyBuild,FPM,Ruby
 ENV EASYBUILD_PREFIX ${EBDIR}
 ENV EASYBUILD_MODULES_TOOL Lmod
 
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
 USER root
-RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install createrepo rpm-build libibverbs python-keyring zlib-devel openssl-devel libibverbs-devel unzip && yum clean all
+RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install createrepo rpm-build libibverbs python-pep8 python-keyring zlib-devel openssl-devel libibverbs-devel unzip && yum clean all
 
 USER apps
 
