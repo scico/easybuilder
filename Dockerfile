@@ -2,7 +2,7 @@ FROM  docker.io/scico/easylmod:centos7
 
 ENV EBDIR /opt/apps
 
-ENV LMOD_VER 7.6.11
+ENV LMOD_VER 7.7.7
 ENV DEFAULT_ALLOW_LOADED_MODULES EasyBuild,FPM,Ruby
 ENV EASYBUILD_PREFIX ${EBDIR}
 ENV EASYBUILD_MODULES_TOOL Lmod
@@ -16,7 +16,7 @@ USER apps
 
 WORKDIR ${EBDIR}
 RUN curl -O https://raw.githubusercontent.com/hpcugent/easybuild-framework/develop/easybuild/scripts/bootstrap_eb.py  && \
-chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod/7.6.11 && /opt/apps/bootstrap_eb.py ${EBDIR}
+chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod/7.7.7 && /opt/apps/bootstrap_eb.py ${EBDIR}
 
 RUN source /etc/profile.d/modules.sh && module use -a ${EBDIR}/modules/all && module load EasyBuild && eb FPM-1.3.3-Ruby-2.1.6.eb -r
 WORKDIR /home/apps
