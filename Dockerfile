@@ -10,7 +10,7 @@ ENV EASYBUILD_MODULES_TOOL Lmod
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
 USER root
-RUN  yum -y update && yum -y install yum-plugin-ovl && yum -y install createrepo rpm-build libibverbs python-pep8 python-pip zlib-devel openssl-devel libibverbs-devel unzip  &&  pip install -U keyring && yum clean all 
+RUN  yum -y update && yum -y install epel-release yum-plugin-ovl && yum -y install createrepo rpm-build libibverbs python-pep8 python-pip zlib-devel openssl-devel libibverbs-devel unzip  &&  pip install -U keyring && yum clean all 
    
 USER apps
 
