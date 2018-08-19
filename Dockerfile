@@ -1,27 +1,29 @@
-FROM  docker.io/scico/easylmod:centos7
+FROM docker.io/scico/easylmod:centos7
 
-ENV EBDIR /opt/apps
-
-ENV LMOD_VER 7.7.19
-ENV DEFAULT_ALLOW_LOADED_MODULES EasyBuild,FPM,Ruby
-ENV EASYBUILD_PREFIX ${EBDIR}
+ENV EB_DIR /opt/apps
+ENV EB_VER 3.6.2 
 ENV EASYBUILD_MODULES_TOOL Lmod
+ENV EASYBUILD_PREFIX=/opt/apps
+
+ENV LMOD_VER 7.8.2  
 
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
 USER root
-RUN  yum -y update && yum -y install epel-release yum-plugin-ovl && yum -y install createrepo rpm-build libibverbs python-pep8 python-pip zlib-devel openssl-devel libibverbs-devel unzip  &&  pip install -U keyring && yum clean all 
-   
+RUN  yum -y update && yum -y install yum-plugin-ovl && \
+     yum -y install rpm-build libibverbs python-setuptools zlib-devel openssl-devel libibverbs-devel unzip && \
+     yum clean all && rm -rf /var/cache/yum
+
 USER apps
 
-WORKDIR ${EBDIR}
+WORKDIR ${EB_DIR}
 RUN curl -O https://raw.githubusercontent.com/hpcugent/easybuild-framework/develop/easybuild/scripts/bootstrap_eb.py  && \
-chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && module load lmod && /opt/apps/bootstrap_eb.py ${EBDIR}
+           chmod u+x bootstrap_eb.py && source /etc/profile.d/modules.sh && \
+           module load lmod && ${EB_DIR}/bootstrap_eb.py ${EB_DIR} 
 
-RUN source /etc/profile.d/modules.sh && module use -a ${EBDIR}/modules/all && module load EasyBuild && eb FPM-1.3.3-Ruby-2.1.6.eb -r
 WORKDIR /home/apps
-RUN echo "module use -a "${EBDIR}"/modules/all" >> /home/apps/.bashrc && \
-    echo "module load EasyBuild/"${EASYBUILD_VER} >> /home/apps/.bashrc && \ 
-    echo "module load FPM" >> /home/apps/.bashrc 
+
+RUN echo "module use -a "${EB_DIR}"/modules/all" >> /home/apps/.bashrc && \
+    echo "module load EasyBuild/"${EB_VER} >> /home/apps/.bashrc  
 
 CMD /bin/bash
