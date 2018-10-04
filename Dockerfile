@@ -1,11 +1,11 @@
 FROM docker.io/scico/easylmod:centos7
 
 ENV EB_DIR /opt/apps
-ENV EB_VER 3.6.2 
+ENV EB_VER 3.7.0 
 ENV EASYBUILD_MODULES_TOOL Lmod
 ENV EASYBUILD_PREFIX=/opt/apps
 
-ENV LMOD_VER 7.8.2  
+ENV LMOD_VER 7.8.6 
 
 MAINTAINER Lars Melwyn <melwyn (at) scico.io>
 
